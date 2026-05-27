@@ -1,0 +1,614 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body-equiv { display: block; }
+
+  .cw-root {
+    min-height: 100vh;
+    background: #0a0a08;
+    color: #c8b98a;
+    font-family: 'Share Tech Mono', monospace;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .corner-tl, .corner-tr, .corner-bl, .corner-br {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+    opacity: 0.6;
+  }
+  .corner-tl { top: 12px; left: 12px; border-top: 1.5px solid #8b6914; border-left: 1.5px solid #8b6914; }
+  .corner-tr { top: 12px; right: 12px; border-top: 1.5px solid #8b6914; border-right: 1.5px solid #8b6914; }
+  .corner-bl { bottom: 12px; left: 12px; border-bottom: 1.5px solid #8b6914; border-left: 1.5px solid #8b6914; }
+  .corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid #8b6914; border-right: 1.5px solid #8b6914; }
+
+  .main-content {
+    position: relative;
+    z-index: 5;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 24px 32px;
+  }
+
+  .header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid #3a2e0e;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .classified-badge {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #6b1010;
+    border: 1px solid #6b1010;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .op-name {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #5a4e2a;
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #2a7a2a;
+    animation: blink 1.8s infinite;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .status-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #3a6b3a;
+    text-transform: uppercase;
+  }
+
+  .year-display {
+    text-align: center;
+    margin: 8px 0 28px;
+    position: relative;
+  }
+
+  .year-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #5a4e2a;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .year-number {
+    font-family: 'Special Elite', cursive;
+    font-size: 108px;
+    line-height: 1;
+    color: #c8a84a;
+    letter-spacing: -4px;
+    text-shadow: 0 0 40px rgba(200,168,74,0.15);
+    transition: opacity 0.3s;
+  }
+
+  .year-number.flash {
+    animation: yearflash 0.5s ease;
+  }
+  @keyframes yearflash {
+    0%{opacity:1} 30%{opacity:0.1} 60%{opacity:0.8} 100%{opacity:1}
+  }
+
+  .year-underline {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #6b4e14, transparent);
+    margin: 4px auto 0;
+  }
+
+  .calendar-grid {
+    background: #0d0d0a;
+    border: 0.5px solid #2a2318;
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+  }
+
+  .cal-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .cal-day-name {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #4a3e1e;
+    text-transform: uppercase;
+  }
+
+  .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .cal-cell {
+    text-align: center;
+    font-size: 12px;
+    padding: 5px 2px;
+    color: #4a4230;
+    border-radius: 1px;
+    transition: background 0.2s;
+  }
+
+  .cal-cell.today {
+    background: #3a2808;
+    color: #c8a84a;
+    border: 0.5px solid #6b4e14;
+  }
+
+  .cal-cell.empty { opacity: 0; }
+
+  .month-year-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .month-name {
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: #8a7040;
+    text-transform: uppercase;
+  }
+
+  .cal-year-small {
+    font-size: 12px;
+    color: #4a3e1e;
+    letter-spacing: 2px;
+  }
+
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .panel {
+    background: #0d0d0a;
+    border: 0.5px solid #2a2318;
+    padding: 14px 16px;
+    border-radius: 2px;
+  }
+
+  .panel-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #4a3e1e;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .countdown-main {
+    font-size: 38px;
+    color: #c8a84a;
+    letter-spacing: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .countdown-main.warning {
+    color: #c83a2a;
+    animation: warnpulse 0.8s infinite;
+  }
+  @keyframes warnpulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  .next-change {
+    font-size: 11px;
+    color: #4a3e1e;
+    margin-top: 6px;
+  }
+
+  .progress-bar-wrap {
+    background: #1a160c;
+    border-radius: 1px;
+    height: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: #6b4e14;
+    border-radius: 1px;
+    transition: width 1s linear;
+  }
+
+  .progress-bar-fill.warning {
+    background: #8b1a1a;
+  }
+
+  .real-clock {
+    font-size: 36px;
+    color: #6a5a30;
+    letter-spacing: 3px;
+  }
+
+  .real-date-sub {
+    font-size: 11px;
+    color: #3a3020;
+    margin-top: 6px;
+  }
+
+  .alert-banner {
+    background: #1a0808;
+    border: 1px solid #6b1010;
+    padding: 10px 16px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #c83a2a;
+    text-transform: uppercase;
+    text-align: center;
+    display: none;
+    animation: alertblink 0.5s infinite;
+    margin-bottom: 18px;
+    border-radius: 1px;
+  }
+  @keyframes alertblink { 0%,100%{background:#1a0808} 50%{background:#2a0808} }
+
+  .alert-banner.active { display: block; }
+
+  .tape-strip {
+    border-top: 0.5px solid #1a1610;
+    padding-top: 12px;
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+  }
+
+  .tape-item {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #2a2318;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .divider {
+    width: 100%;
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, #2a2318, transparent);
+    margin: 6px 0 18px;
+  }
+
+  .control-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .ctrl-btn {
+    background: transparent;
+    border: 0.5px solid #3a2e0e;
+    color: #6a5a30;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { border-color: #8b6914; color: #c8a84a; }
+  .ctrl-btn:active { opacity: 0.6; }
+
+  .intel-box {
+    background: #0d0d0a;
+    border: 0.5px solid #2a2318;
+    border-left: 2px solid #3a2808;
+    padding: 12px 14px;
+    font-size: 10px;
+    color: #3a3020;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .intel-box span {
+    color: #5a4e2a;
+  }
+
+  @media (max-width: 500px) {
+    .year-number { font-size: 64px; }
+    .panels { grid-template-columns: 1fr; }
+    .countdown-main { font-size: 28px; }
+  }
+</style>
+
+<div class="cw-root">
+  <div class="noise-overlay"></div>
+  <div class="scanlines"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-tr"></div>
+  <div class="corner-bl"></div>
+  <div class="corner-br"></div>
+
+  <div class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <div class="classified-badge">Top Secret</div>
+        <div class="op-name">Operación Cóndor</div>
+      </div>
+      <div>
+        <span class="status-dot"></span>
+        <span class="status-label">En curso</span>
+      </div>
+    </div>
+
+    <div id="alertBanner" class="alert-banner">
+      ⚠ &nbsp; ALERTA — CAMBIO DE ERA EN 5 MINUTOS &nbsp; ⚠
+    </div>
+
+    <div class="year-display">
+      <div class="year-label">Año en curso</div>
+      <div class="year-number" id="yearDisplay">1975</div>
+      <div class="year-underline"></div>
+    </div>
+
+    <div class="calendar-grid">
+      <div class="month-year-row">
+        <div class="month-name" id="calMonth">Enero</div>
+        <div class="cal-year-small" id="calYearSmall">1975</div>
+      </div>
+      <div class="cal-header">
+        <div class="cal-day-name">LU</div>
+        <div class="cal-day-name">MA</div>
+        <div class="cal-day-name">MI</div>
+        <div class="cal-day-name">JU</div>
+        <div class="cal-day-name">VI</div>
+        <div class="cal-day-name">SÁ</div>
+        <div class="cal-day-name">DO</div>
+      </div>
+      <div class="cal-days" id="calDays"></div>
+    </div>
+
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-label">Próximo cambio de era</div>
+        <div class="countdown-main" id="countdownDisplay">30:00</div>
+        <div class="next-change">→ <span id="nextYearLabel">1977</span></div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Hora actual</div>
+        <div class="real-clock" id="realClock">00:00:00</div>
+        <div class="real-date-sub" id="realDate">—</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="control-row">
+      <button class="ctrl-btn" onclick="resetTimer()">↺ Reiniciar ciclo</button>
+      <button class="ctrl-btn" onclick="advanceYear()">⟫ Avanzar era</button>
+    </div>
+
+    <div class="intel-box">
+      <span>PROTOCOLO:</span> Cada 30 minutos el calendario avanza 2 años. &nbsp;|&nbsp;
+      <span>CICLO ACTUAL:</span> <span id="cycleCount">1</span> de operación &nbsp;|&nbsp;
+      <span>RANGO:</span> 1947 – 1991
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="tape-strip">
+      <div class="tape-item">// CIA — Langley, Virginia //</div>
+      <div class="tape-item">// DINA — Santiago de Chile //</div>
+      <div class="tape-item">// Operación Cóndor — Cono Sur //</div>
+      <div class="tape-item">// SIDE — Buenos Aires //</div>
+      <div class="tape-item">// Guerra Fría — 1947–1991 //</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const INTERVAL_MS = 30 * 60 * 1000;
+const YEARS_PER_INTERVAL = 2;
+const START_YEAR = 1947;
+const END_YEAR = 1991;
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+let currentYear = START_YEAR;
+let cycleStart = Date.now();
+let cycleCount = 1;
+let alertPlayed = false;
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playAlert() {
+  try {
+    const ctx = getAudioCtx();
+    const freqs = [440, 523, 440, 659, 440];
+    let t = ctx.currentTime;
+    freqs.forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = f;
+      osc.type = 'square';
+      gain.gain.setValueAtTime(0, t + i * 0.18);
+      gain.gain.linearRampToValueAtTime(0.15, t + i * 0.18 + 0.02);
+      gain.gain.linearRampToValueAtTime(0, t + i * 0.18 + 0.14);
+      osc.start(t + i * 0.18);
+      osc.stop(t + i * 0.18 + 0.16);
+    });
+  } catch(e) {}
+}
+
+function playYearChange() {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(220, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(440, ctx.currentTime + 0.3);
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.5);
+  } catch(e) {}
+}
+
+function buildCalendar(year) {
+  const month = (year % 12);
+  const daysEl = document.getElementById('calDays');
+  document.getElementById('calMonth').textContent = MONTHS[month];
+  document.getElementById('calYearSmall').textContent = year;
+
+  const totalDays = [31,28,31,30,31,30,31,31,30,31,30,31][month];
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+  const today = (year * 31 + month) % totalDays + 1;
+
+  let html = '';
+  for (let i = 0; i < firstDay; i++) html += '<div class="cal-cell empty"></div>';
+  for (let d = 1; d <= totalDays; d++) {
+    const cls = d === today ? 'cal-cell today' : 'cal-cell';
+    html += `<div class="${cls}">${d}</div>`;
+  }
+  daysEl.innerHTML = html;
+}
+
+function padZ(n) { return String(n).padStart(2,'0'); }
+
+function updateUI() {
+  const now = Date.now();
+  const elapsed = now - cycleStart;
+  const remaining = INTERVAL_MS - elapsed;
+
+  if (remaining <= 0) {
+    advanceYear();
+    return;
+  }
+
+  const mins = Math.floor(remaining / 60000);
+  const secs = Math.floor((remaining % 60000) / 1000);
+  const pct = (remaining / INTERVAL_MS) * 100;
+
+  const cdEl = document.getElementById('countdownDisplay');
+  const pbEl = document.getElementById('progressBar');
+  const alertEl = document.getElementById('alertBanner');
+
+  cdEl.textContent = `${padZ(mins)}:${padZ(secs)}`;
+
+  const fiveMins = 5 * 60 * 1000;
+  const isWarning = remaining <= fiveMins;
+
+  cdEl.classList.toggle('warning', isWarning);
+  pbEl.classList.toggle('warning', isWarning);
+  pbEl.style.width = pct + '%';
+
+  if (isWarning && !alertPlayed) {
+    alertPlayed = true;
+    alertEl.classList.add('active');
+    playAlert();
+    setTimeout(() => alertEl.classList.remove('active'), 8000);
+  }
+
+  const realNow = new Date();
+  document.getElementById('realClock').textContent =
+    `${padZ(realNow.getHours())}:${padZ(realNow.getMinutes())}:${padZ(realNow.getSeconds())}`;
+  document.getElementById('realDate').textContent =
+    realNow.toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+}
+
+function advanceYear() {
+  currentYear += YEARS_PER_INTERVAL;
+  if (currentYear > END_YEAR) currentYear = START_YEAR;
+  cycleStart = Date.now();
+  alertPlayed = false;
+  cycleCount++;
+  document.getElementById('cycleCount').textContent = cycleCount;
+
+  const yearEl = document.getElementById('yearDisplay');
+  yearEl.classList.remove('flash');
+  void yearEl.offsetWidth;
+  yearEl.classList.add('flash');
+  yearEl.textContent = currentYear;
+
+  const nextY = currentYear + YEARS_PER_INTERVAL > END_YEAR ? START_YEAR : currentYear + YEARS_PER_INTERVAL;
+  document.getElementById('nextYearLabel').textContent = nextY;
+
+  buildCalendar(currentYear);
+  playYearChange();
+  document.getElementById('alertBanner').classList.remove('active');
+}
+
+function resetTimer() {
+  currentYear = START_YEAR;
+  cycleStart = Date.now();
+  alertPlayed = false;
+  cycleCount = 1;
+  document.getElementById('cycleCount').textContent = 1;
+  document.getElementById('yearDisplay').textContent = START_YEAR;
+  document.getElementById('nextYearLabel').textContent = START_YEAR + YEARS_PER_INTERVAL;
+  buildCalendar(START_YEAR);
+  document.getElementById('alertBanner').classList.remove('active');
+  document.getElementById('countdownDisplay').classList.remove('warning');
+  document.getElementById('progressBar').classList.remove('warning');
+}
+
+buildCalendar(currentYear);
+document.getElementById('nextYearLabel').textContent = currentYear + YEARS_PER_INTERVAL;
+setInterval(updateUI, 1000);
+updateUI();
+</script>
