@@ -1,38 +1,39 @@
-
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap');
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body-equiv { display: block; }
-
+  /* FONDO ACTUALIZADO */
   .cw-root {
     min-height: 100vh;
-    background: #0a0a08;
-    color: #c8b98a;
+    background: #edf4ff;
+    color: #0f172a;
     font-family: 'Share Tech Mono', monospace;
     padding: 0;
     position: relative;
     overflow: hidden;
   }
 
+  /* RUIDO ACTUALIZADO */
   .noise-overlay {
     position: fixed;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    opacity: 0.4;
+    opacity: 0.06;
   }
 
+  /* ESCANEO ACTUALIZADO */
   .scanlines {
     position: fixed;
     inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(37,99,235,.03) 2px, rgba(37,99,235,.03) 4px);
     pointer-events: none;
     z-index: 1;
   }
 
+  /* ESQUINAS ACTUALIZADAS */
   .corner-tl, .corner-tr, .corner-bl, .corner-br {
     position: fixed;
     width: 60px;
@@ -40,10 +41,10 @@
     z-index: 10;
     opacity: 0.6;
   }
-  .corner-tl { top: 12px; left: 12px; border-top: 1.5px solid #8b6914; border-left: 1.5px solid #8b6914; }
-  .corner-tr { top: 12px; right: 12px; border-top: 1.5px solid #8b6914; border-right: 1.5px solid #8b6914; }
-  .corner-bl { bottom: 12px; left: 12px; border-bottom: 1.5px solid #8b6914; border-left: 1.5px solid #8b6914; }
-  .corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid #8b6914; border-right: 1.5px solid #8b6914; }
+  .corner-tl { top: 12px; left: 12px; border-top: 1.5px solid #2563eb; border-left: 1.5px solid #2563eb; }
+  .corner-tr { top: 12px; right: 12px; border-top: 1.5px solid #2563eb; border-right: 1.5px solid #2563eb; }
+  .corner-bl { bottom: 12px; left: 12px; border-bottom: 1.5px solid #2563eb; border-left: 1.5px solid #2563eb; }
+  .corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid #2563eb; border-right: 1.5px solid #2563eb; }
 
   .main-content {
     position: relative;
@@ -53,11 +54,12 @@
     padding: 28px 24px 32px;
   }
 
+  /* HEADER ACTUALIZADO */
   .header-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 0.5px solid #3a2e0e;
+    border-bottom: 0.5px solid #60a5fa;
     padding-bottom: 12px;
     margin-bottom: 24px;
   }
@@ -71,8 +73,9 @@
   .classified-badge {
     font-size: 9px;
     letter-spacing: 3px;
-    color: #6b1010;
-    border: 1px solid #6b1010;
+    color: #ffffff;
+    background: #ef4444;
+    border: 1px solid #ef4444;
     padding: 3px 8px;
     text-transform: uppercase;
     opacity: 0.9;
@@ -81,14 +84,14 @@
   .op-name {
     font-size: 10px;
     letter-spacing: 4px;
-    color: #5a4e2a;
+    color: #1d4ed8;
     text-transform: uppercase;
   }
 
   .status-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: #2a7a2a;
+    background: #22c55e;
     animation: blink 1.8s infinite;
     display: inline-block;
     margin-right: 6px;
@@ -98,10 +101,11 @@
   .status-label {
     font-size: 10px;
     letter-spacing: 2px;
-    color: #3a6b3a;
+    color: #15803d;
     text-transform: uppercase;
   }
 
+  /* AÑO ACTUALIZADO */
   .year-display {
     text-align: center;
     margin: 8px 0 28px;
@@ -111,7 +115,7 @@
   .year-label {
     font-size: 10px;
     letter-spacing: 5px;
-    color: #5a4e2a;
+    color: #2563eb;
     text-transform: uppercase;
     margin-bottom: 6px;
   }
@@ -120,9 +124,9 @@
     font-family: 'Special Elite', cursive;
     font-size: 108px;
     line-height: 1;
-    color: #c8a84a;
+    color: #0f172a;
     letter-spacing: -4px;
-    text-shadow: 0 0 40px rgba(200,168,74,0.15);
+    text-shadow: 0 0 45px rgba(37,99,235,.25);
     transition: opacity 0.3s;
   }
 
@@ -136,13 +140,14 @@
   .year-underline {
     width: 200px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #6b4e14, transparent);
+    background: linear-gradient(90deg, transparent, #38bdf8, transparent);
     margin: 4px auto 0;
   }
 
+  /* TARJETAS ACTUALIZADAS */
   .calendar-grid {
-    background: #0d0d0a;
-    border: 0.5px solid #2a2318;
+    background: #ffffff;
+    border: 0.5px solid #bfdbfe;
     border-radius: 2px;
     padding: 16px 20px;
     margin-bottom: 22px;
@@ -159,7 +164,7 @@
     text-align: center;
     font-size: 9px;
     letter-spacing: 2px;
-    color: #4a3e1e;
+    color: #1e40af;
     text-transform: uppercase;
   }
 
@@ -173,15 +178,15 @@
     text-align: center;
     font-size: 12px;
     padding: 5px 2px;
-    color: #4a4230;
+    color: #334155;
     border-radius: 1px;
     transition: background 0.2s;
   }
 
   .cal-cell.today {
-    background: #3a2808;
-    color: #c8a84a;
-    border: 0.5px solid #6b4e14;
+    background: #2563eb;
+    color: white;
+    border: 0.5px solid #38bdf8;
   }
 
   .cal-cell.empty { opacity: 0; }
@@ -196,13 +201,13 @@
   .month-name {
     font-size: 13px;
     letter-spacing: 4px;
-    color: #8a7040;
+    color: #1d4ed8;
     text-transform: uppercase;
   }
 
   .cal-year-small {
     font-size: 12px;
-    color: #4a3e1e;
+    color: #475569;
     letter-spacing: 2px;
   }
 
@@ -213,9 +218,10 @@
     margin-bottom: 18px;
   }
 
+  /* PANEL ACTUALIZADO */
   .panel {
-    background: #0d0d0a;
-    border: 0.5px solid #2a2318;
+    background: #ffffff;
+    border: 0.5px solid #bfdbfe;
     padding: 14px 16px;
     border-radius: 2px;
   }
@@ -223,32 +229,33 @@
   .panel-label {
     font-size: 9px;
     letter-spacing: 3px;
-    color: #4a3e1e;
+    color: #475569;
     text-transform: uppercase;
     margin-bottom: 8px;
   }
 
   .countdown-main {
     font-size: 38px;
-    color: #c8a84a;
+    color: #0f172a;
     letter-spacing: 2px;
     font-family: 'Share Tech Mono', monospace;
   }
 
   .countdown-main.warning {
-    color: #c83a2a;
+    color: #dc2626;
     animation: warnpulse 0.8s infinite;
   }
   @keyframes warnpulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
   .next-change {
     font-size: 11px;
-    color: #4a3e1e;
+    color: #2563eb;
     margin-top: 6px;
   }
 
+  /* BARRA ACTUALIZADA */
   .progress-bar-wrap {
-    background: #1a160c;
+    background: #dbeafe;
     border-radius: 1px;
     height: 4px;
     margin-top: 10px;
@@ -257,34 +264,36 @@
 
   .progress-bar-fill {
     height: 100%;
-    background: #6b4e14;
+    background: #2563eb;
     border-radius: 1px;
     transition: width 1s linear;
   }
 
   .progress-bar-fill.warning {
-    background: #8b1a1a;
+    background: #ef4444;
   }
 
+  /* RELOJ ACTUALIZADO */
   .real-clock {
     font-size: 36px;
-    color: #6a5a30;
+    color: #1d4ed8;
     letter-spacing: 3px;
   }
 
   .real-date-sub {
     font-size: 11px;
-    color: #3a3020;
+    color: #475569;
     margin-top: 6px;
   }
 
+  /* ALERTA ACTUALIZADA */
   .alert-banner {
-    background: #1a0808;
-    border: 1px solid #6b1010;
+    background: #dc2626;
+    border: 1px solid #ef4444;
     padding: 10px 16px;
     font-size: 11px;
     letter-spacing: 3px;
-    color: #c83a2a;
+    color: white;
     text-transform: uppercase;
     text-align: center;
     display: none;
@@ -292,12 +301,13 @@
     margin-bottom: 18px;
     border-radius: 1px;
   }
-  @keyframes alertblink { 0%,100%{background:#1a0808} 50%{background:#2a0808} }
+  @keyframes alertblink { 0%,100%{background:#dc2626} 50%{background:#b91c1c} }
 
   .alert-banner.active { display: block; }
 
+  /* CINTA ACTUALIZADA */
   .tape-strip {
-    border-top: 0.5px solid #1a1610;
+    border-top: 0.5px solid #93c5fd;
     padding-top: 12px;
     display: flex;
     gap: 24px;
@@ -307,18 +317,20 @@
   .tape-item {
     font-size: 9px;
     letter-spacing: 2px;
-    color: #2a2318;
+    color: #2563eb;
     white-space: nowrap;
     text-transform: uppercase;
   }
 
+  /* DIVIDER ACTUALIZADO */
   .divider {
     width: 100%;
     height: 0.5px;
-    background: linear-gradient(90deg, transparent, #2a2318, transparent);
+    background: linear-gradient(90deg, transparent, #60a5fa, transparent);
     margin: 6px 0 18px;
   }
 
+  /* BOTONES ACTUALIZADOS */
   .control-row {
     display: flex;
     gap: 10px;
@@ -328,8 +340,8 @@
 
   .ctrl-btn {
     background: transparent;
-    border: 0.5px solid #3a2e0e;
-    color: #6a5a30;
+    border: 0.5px solid #2563eb;
+    color: #2563eb;
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     letter-spacing: 2px;
@@ -339,23 +351,28 @@
     border-radius: 1px;
     transition: all 0.2s;
   }
-  .ctrl-btn:hover { border-color: #8b6914; color: #c8a84a; }
+  .ctrl-btn:hover {
+    border-color: #1d4ed8;
+    background: #2563eb;
+    color: white;
+  }
   .ctrl-btn:active { opacity: 0.6; }
 
+  /* INFO ACTUALIZADA */
   .intel-box {
-    background: #0d0d0a;
-    border: 0.5px solid #2a2318;
-    border-left: 2px solid #3a2808;
+    background: #ffffff;
+    border: 0.5px solid #bfdbfe;
+    border-left: 2px solid #2563eb;
     padding: 12px 14px;
     font-size: 10px;
-    color: #3a3020;
+    color: #334155;
     line-height: 1.8;
     letter-spacing: 1px;
     margin-bottom: 4px;
   }
 
   .intel-box span {
-    color: #5a4e2a;
+    color: #1d4ed8;
   }
 
   @media (max-width: 500px) {
