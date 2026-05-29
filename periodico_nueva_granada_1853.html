@@ -1,0 +1,215 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap');
+
+.papel {
+  background: #f5ead0;
+  color: #1a0f00;
+  font-family: 'IM Fell English', Georgia, serif;
+  padding: 2.5rem 3rem;
+  border: 3px double #8B6914;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+.papel::before {
+  content: '';
+  position: absolute; inset: 6px;
+  border: 1px solid #8B6914;
+  pointer-events: none;
+}
+.cabecera {
+  text-align: center;
+  border-bottom: 3px double #8B6914;
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.titulo-grande {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: #1a0f00;
+  letter-spacing: 1px;
+}
+.subtitulo-cabecera {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: #5a3e00;
+  margin: 4px 0 0;
+}
+.meta-linea {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: #5a3e00;
+  border-bottom: 1px solid #8B6914;
+  padding: 4px 0 6px;
+  margin-bottom: 0.9rem;
+}
+.columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 0.9rem;
+}
+.col-full {
+  grid-column: 1 / -1;
+}
+.col-divider {
+  border-right: 1px solid #8B6914;
+  padding-right: 1rem;
+}
+.titular-art {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+  color: #1a0f00;
+  text-align: center;
+  border-bottom: 1px solid #8B6914;
+  padding-bottom: 0.35rem;
+}
+.drop-cap::first-letter {
+  float: left;
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 3.8rem;
+  line-height: 0.8;
+  margin: 0.1rem 0.35rem 0 0;
+  color: #1a0f00;
+}
+p.cuerpo {
+  font-size: 0.78rem;
+  line-height: 1.65;
+  margin: 0 0 0.55rem;
+  text-align: justify;
+  hyphens: auto;
+}
+.separador {
+  text-align: center;
+  font-size: 1rem;
+  color: #8B6914;
+  margin: 0.4rem 0;
+  letter-spacing: 6px;
+}
+.recuadro {
+  border: 1px solid #8B6914;
+  padding: 0.6rem 0.8rem;
+  margin: 0.6rem 0;
+  background: rgba(139,105,20,0.06);
+}
+.recuadro-titulo {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 0.78rem;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 0.4rem;
+  color: #1a0f00;
+}
+.lista-reformas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lista-reformas li {
+  font-size: 0.75rem;
+  line-height: 1.55;
+  padding: 2px 0 2px 1.1rem;
+  position: relative;
+  text-align: left;
+}
+.lista-reformas li::before {
+  content: '§';
+  position: absolute;
+  left: 0;
+  color: #8B6914;
+}
+.pie-pagina {
+  text-align: center;
+  font-size: 0.65rem;
+  font-style: italic;
+  color: #5a3e00;
+  border-top: 2px double #8B6914;
+  padding-top: 0.5rem;
+  margin-top: 0.8rem;
+  letter-spacing: 1px;
+}
+.aviso-legal {
+  font-size: 0.68rem;
+  font-style: italic;
+  color: #5a3e00;
+  text-align: center;
+  border: 1px solid #8B6914;
+  padding: 0.4rem;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+.ornamento {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #8B6914;
+  line-height: 1;
+  margin: 0.3rem 0;
+}
+</style>
+
+<div class="papel">
+  <div class="cabecera">
+    <div class="titulo-grande">La Gaceta de la Nueva Granada</div>
+    <div class="subtitulo-cabecera">Periódico Oficial de la República · Verdad, Justicia y Orden</div>
+  </div>
+
+  <div class="meta-linea">
+    <span>Núm. CXLVII — Año XXIV</span>
+    <span>Bogotá, Jueves 14 de Julio de 1853</span>
+    <span>Precio: Dos reales</span>
+  </div>
+
+  <div class="columnas">
+    <div class="col-divider">
+      <div class="titular-art">Crisis en Palacio:<br>López Revocado de su Cargo</div>
+      <p class="cuerpo drop-cap">La República atraviesa uno de los períodos más tensos é inestables de las últimas décadas. Iniciose la tribulación durante el gobierno del señor Presidente José Hilario López, quando el hallazgo de dos mujeres esclavizadas sin vida en propiedades vinculadas á círculos del poder causó escándalo mayúsculo en toda la nación.</p>
+      <p class="cuerpo">Aunque jamás pudo comprobarse responsabilidad directa del Presidente, la oposición conservadora y varios miembros del Congreso aprovecharon la desgracia para acusar al gobierno liberal de sembrar el caos y la violencia en las haciendas del país, á raíz de sus intentos por abolir la esclavitud.</p>
+      <p class="cuerpo">Crescieron las protestas, los periódicos publicaron rumores á diario, y el Congreso convocó una votación extraordinaria. Tras varios debates cargados de enorme tensión, el señor López fue revocado de su cargo por voluntad de la Cámara.</p>
+
+      <div class="separador">— ✦ —</div>
+
+      <div class="titular-art">Obaldía Asume el Mando<br>de Manera Provisional</div>
+      <p class="cuerpo">Ante la grave crisis institucional, el señor José María Obaldía tomó posesión de la Presidencia con carácter provisional, con el propósito de estabilizar la nación y evitar el estallido de una guerra civil que muchos ya anunciaban como inevitable.</p>
+      <p class="cuerpo">Si bien el gobierno de Obaldía logró disminuir en parte las revueltas, continúan aflorando denuncias sobre redes esclavistas ilegales, corrupción política y violentos enfrentamientos entre liberales radicales y conservadores clericales. Dicen los ciudadanos que el país "se halla aguardando la próxima explosión".</p>
+    </div>
+
+    <div>
+      <div class="titular-art">Caycedo Electo Presidente:<br>Promete Restaurar el Orden</div>
+      <p class="cuerpo drop-cap">Convocadas las nuevas elecciones para el presente año de 1853, algunos sectores liberales impulsaron la candidatura del señor Obaldía para mantener la estabilidad; mas la Constitución prohíbe la reelección inmediata, por lo que su candidatura hubo de descartarse.</p>
+      <p class="cuerpo">Finalmente, el señor Domingo Caycedo llegó á la Presidencia prometiendo restaurar el orden nacional por medio de las llamadas <em>Reformas de Medio Siglo</em>, conjunto de disposiciones que han generado tanto entusiasmo entre los liberales como alarma entre los más tradicionales.</p>
+
+      <div class="recuadro">
+        <div class="recuadro-titulo">⚖ Reformas de Medio Siglo</div>
+        <ul class="lista-reformas">
+          <li>Abolición definitiva de la esclavitud en toda la Nueva Granada</li>
+          <li>Sufragio para todos los hombres mayores de 21 años</li>
+          <li>Voto popular directo para Congresistas, Gobernadores y Magistrados</li>
+          <li>Libertad religiosa y separación entre la Iglesia y el Estado</li>
+          <li>Eliminación de privilegios jurídicos de la Iglesia Católica</li>
+          <li>Mayor libertad administrativa para las Provincias</li>
+        </ul>
+      </div>
+
+      <div class="separador">— ✦ —</div>
+
+      <div class="titular-art">Medidas Extraordinarias<br>por la Crisis</div>
+      <p class="cuerpo">Por temor á nuevas conspiraciones, el gobierno aprobó también disposiciones de carácter más radical: una comisión nacional para investigar abusos de los hacendados esclavistas; formación de milicias republicanas; posibilidad de expropiar haciendas donde se descubran prácticas ilegales de esclavitud; y censura temporal sobre periódicos que promuevan revueltas armadas.</p>
+      <p class="cuerpo"><em>Mientras unos celebran el alba de una nueva democracia, otros advierten que las reformas están destruyendo los fundamentos tradicionales de la República.</em></p>
+    </div>
+  </div>
+
+  <div class="aviso-legal">
+    Imprenta Nacional de la Nueva Granada · Calle del Comercio, Bogotá · Redactor Principal: Don F. Álvarez de la Torre<br>
+    Queda prohibida la reproducción parcial ó total sin licencia expresa del Editor. Se admiten suscripciones anuales por ocho pesos.
+  </div>
+
+  <div class="pie-pagina">
+    "La Pluma Es La Espada Del Hombre Libre" · Continuará en el Próximo Número
+  </div>
+</div>
